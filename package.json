@@ -1,0 +1,29 @@
+{
+  "name": "ejemplppro",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "connect": "adb start-server",
+    "start": "expo start",
+    "android": "expo start --localhost --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "deploy": "expo build:android"
+  },
+  "dependencies": {
+    "@expo/webpack-config": "^0.17.2",
+    "@react-native-picker/picker": "2.4.8",
+    "axios": "^1.1.3",
+    "expo": "~47.0.6",
+    "expo-status-bar": "~1.4.2",
+    "formik": "^2.2.9",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-native": "0.70.5",
+    "react-native-web": "~0.18.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
+}
