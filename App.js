@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { useState, useEffect } from "react";
+import axios, { AxiosResponse } from "axios";
 import { Picker } from "@react-native-picker/picker";
 import {
   StyleSheet,
@@ -10,8 +10,8 @@ import {
   FlatList,
   SafeAreaView,
   TextInput,
-  Alert
-} from 'react-native';
+  Alert,
+} from "react-native";
 
 export default function App() {
   const [source, setOrigen] = useState("");
@@ -25,15 +25,13 @@ export default function App() {
 
   const api = axios.create();
   const sendData = async (data) => {
-    const source = "https://jsonplaceholder.typicode.com/posts"
-    return await api.post(source,
-      data, {
+    const source = "http://localhost:8090/services/create";
+    return await api.post(source, JSON.stringify(data), {
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    );
-  }
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   const showAlert = () =>
     Alert.alert(
@@ -55,49 +53,47 @@ export default function App() {
       }
     );
 
-    const campoInvalido = (data) => {
-
-      for (let i = 0; i < 4; i++) {
-        if (Object.values(data)[i] === "") {
-          setMensajeInvalido("Campos vacios por favor verifique");
-          return true;
-        }
+  const campoInvalido = (data) => {
+    for (let i = 0; i < 4; i++) {
+      if (Object.values(data)[i] === "") {
+        setMensajeInvalido("Campos vacios por favor verifique");
+        return true;
       }
-      return false;
-  
     }
+    return false;
+  };
 
   const getData = () => {
     let data = {};
 
-    data["origen"] = source;
-    data["destino"] = destination;
-    data["fecha-Hora"] = initialDate;
-    data["tipoV"] = vehicleTypeId;
-    data["nombre Servicio"] = name;
-    data["descripcion"] = description;
-    data["nombre de usuario"] = providerUser;
+    data["source"] = source;
+    data["destination"] = destination;
+    data["initialDate"] = initialDate;
+    data["vehicleTypeId"] = parseInt(vehicleTypeId);
+    data["name"] = name;
+    data["description"] = description;
+    data["providerUser"] = providerUser;
     console.log(data);
 
-    if(campoInvalido(data) === false){
-      sendData(data).then((response) => {
-        console.log(response);
-        console.log("envie datos")
-      }, (error) => {
-        console.log(error);
-      });
-    }else{
+    if (campoInvalido(data) === false) {
+      sendData(data).then(
+        (response) => {
+          console.log(response);
+          console.log("envie datos");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
       console.log("no envie datos");
-      
     }
-  }
+  };
 
-
-  
   return (
     <View style={styles.container}>
       <View style={styles.titulo}>
-        <Text style={styles.titulo} >Ofrecer Servicio</Text>
+        <Text style={styles.titulo}>Ofrecer Servicio</Text>
       </View>
       <TextInput
         style={styles.input}
@@ -112,7 +108,6 @@ export default function App() {
         placeholder="Destino"
       />
       <TextInput
-
         style={styles.input}
         onChangeText={setFechaH}
         value={initialDate}
@@ -124,14 +119,15 @@ export default function App() {
           selectedValue={vehicleTypeId}
           style={{ height: 200, width: 320 }}
           accessibilityLabel="tipo vehiculo"
-
-          onValueChange={(itemValue, itemIndex) =>
-            setTipoV(itemValue)
-          }
+          onValueChange={(itemValue, itemIndex) => setTipoV(itemValue)}
         >
-          <Picker.Item style={{ height: 40 }} label="Seleciona Tipo de Vehiculo" value="00" />
-          <Picker.Item label="Moto" value="01" />
-          <Picker.Item label="carro" value="02" />
+          <Picker.Item
+            style={{ height: 40 }}
+            label="Seleciona Tipo de Vehiculo"
+            value="00"
+          />
+          <Picker.Item label="Moto" value="1" />
+          <Picker.Item label="carro" value="2" />
         </Picker>
       </View>
       <TextInput
@@ -154,25 +150,19 @@ export default function App() {
         placeholder="Descripcion del servicio"
       />
 
-      <Text>
-        {MensajeInvalido}
-      </Text>
-      <TouchableOpacity style={styles.button}  
-      
-      onPress={getData}>
-      <Text>Enviar datos</Text>
+      <Text>{MensajeInvalido}</Text>
+      <TouchableOpacity style={styles.button} onPress={getData}>
+        <Text>Enviar datos</Text>
       </TouchableOpacity>
     </View>
   );
-  
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start ',
+    backgroundColor: "#fff",
+    justifyContent: "flex-start ",
   },
   input: {
     height: 40,
@@ -183,16 +173,15 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
-    padding: 10
+    padding: 10,
   },
   titulo: {
     alignItems: "center",
-    fontSize: 18
+    fontSize: 18,
   },
   titulosCasillas: {
     height: 60,
     margin: 15,
     padding: 10,
   },
-
 });
