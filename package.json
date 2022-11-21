@@ -11,9 +11,11 @@
     "deploy": "expo build:android"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^0.17.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "2.4.8",
+    "@react-navigation/bottom-tabs": "5.x",
     "@react-navigation/drawer": "5.x",
     "@react-navigation/native": "5.x",
     "@react-navigation/stack": "5.x",

@@ -10,6 +10,7 @@ import {
 } from "@react-navigation/drawer";
 import HomeScreen from "./src/screens/HomeScreen";
 import ServiceScreen from "./src/screens/ServiceScreen";
+import NavigationTab from "./src/navigation/NavigacionTab";
 
 function CustomDrawerContent(props) {
   return (
@@ -32,7 +33,7 @@ function MyDrawer() {
     >
       <Drawer.Screen
         name="Home"
-        component={(props) => <HomeScreen {...props} />}
+        component={(props) => <NavigationTab {...props} />}
       />
       <Drawer.Screen
         name="Ofrecer servicio"

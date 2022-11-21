@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "tomato",
     padding: 10,
   },
   titulo: {

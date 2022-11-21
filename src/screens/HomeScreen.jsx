@@ -25,9 +25,14 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.scrollView}>
+      <View
+        style={{
+          justifyContent: "space-evenly",
+          alignContent: "center",
+        }}
+      >
         <View style={styles.view_profile}>
-          <Text style={styles.address}>Hola, Bienvenido a VeFree</Text>
+          <Text style={styles.address}>Bienvenido a VeFree</Text>
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <ImageBackground
               source={require("../assets/images/userAccount.png")}
@@ -48,9 +53,11 @@ export default function HomeScreen({ navigation }) {
             providerUser,
             vehicleTypeId,
           }) => (
-            <View>
+            <View style={styles.card}>
               <Card image={source} key={id}>
-                <Text style={{ marginBottom: 10 }}>{name}.</Text>
+                <Text style={{ marginBottom: 10, fontWeight: "bold" }}>
+                  {name}.
+                </Text>
                 <Text style={{ marginBottom: 10 }}>{description}.</Text>
                 <Text style={{ marginBottom: 10 }}>Origen: {source}.</Text>
                 <Text style={{ marginBottom: 10 }}>
@@ -62,6 +69,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={{ marginBottom: 10 }}>
                   Ofrecido por: {providerUser}.
                 </Text>
+                <Button title="Aceptar Servicio" color="tomato" />
               </Card>
             </View>
           )
@@ -81,12 +89,20 @@ const styles = StyleSheet.create({
   },
   view_profile: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    alignItems: "center",
     marginBottom: 20,
+    backgroundColor: "#fff",
+    fontSize: 40,
+    height: 80,
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
   },
   address: {
     fontSize: 18,
     fontFamily: "Roboto-Medium",
+    fontWeight: "bold",
+    color: "tomato",
   },
   icon_profile: {
     width: 35,
@@ -103,5 +119,11 @@ const styles = StyleSheet.create({
   },
   view_search_feather: {
     marginRight: 5,
+  },
+  card: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#34495e",
   },
 });
