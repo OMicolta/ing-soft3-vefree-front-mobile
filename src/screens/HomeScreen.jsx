@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-web";
+import { SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
