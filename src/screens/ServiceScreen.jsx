@@ -18,9 +18,10 @@ export default function ServiceScreen({ navigation }) {
   const [destination, setDestino] = useState("");
   const [initialDate, setFechaH] = useState("");
   const [vehicleTypeId, setTipoV] = useState("");
-  const [name, setNombreSer] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescripcion] = useState("");
-  const [providerUser, setNombrePersona] = useState("");
+  const [providerName, setProviderName] = useState("");
+  const [providerId, setProviderId] = useState("");
   const [MensajeInvalido, setMensajeInvalido] = useState("...");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
@@ -73,7 +74,7 @@ export default function ServiceScreen({ navigation }) {
     data["vehicleTypeId"] = parseInt(vehicleTypeId);
     data["name"] = name;
     data["description"] = description;
-    data["providerUser"] = providerUser;
+    data["providerUser"] = providerName;
     console.log(data);
 
     if (campoInvalido(data) === false) {
@@ -92,18 +93,34 @@ export default function ServiceScreen({ navigation }) {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:8090/vehicleType/getAll").then((resp) => {
-      setVehicleTypes(resp.data);
-      console.log(resp.data);
-    });
+    api
+      .get("http://localhost:8090/vehicleType/getAll")
+      .then((resp) => {
+        setVehicleTypes(resp.data);
+        console.log(resp.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
         <View style={styles.titulo}>
-          <Text style={styles.titulo}>Ofrecer Servicio</Text>
+          <Text style={styles.titulo}>Ingresa los datos del servicio</Text>
         </View>
+        <TextInput
+          style={styles.input}
+          onChangeText={setName}
+          value={name}
+          placeholder="Nombre Servicio "
+        />
+
+        <TextInput
+          style={styles.input}
+          onChangeText={setDescripcion}
+          value={description}
+          placeholder="Descripcion del servicio"
+        />
         <TextInput
           style={styles.input}
           onChangeText={setOrigen}
@@ -123,20 +140,14 @@ export default function ServiceScreen({ navigation }) {
           placeholder="Fecha y Hora"
         />
         <View style={styles.titulosCasillas}>
-          <Text style={{ alignSelf: "flex-start" }}>Tipo de vehiculo</Text>
           <Picker
             selectedValue={vehicleTypeId}
-            style={{
-              height: 200,
-              width: 300,
-              borderEndWidth: 2,
-              borderColor: "#DDDDDD",
-            }}
+            style={styles.input}
             accessibilityLabel="tipo vehiculo"
             onValueChange={(itemValue, itemIndex) => setTipoV(itemValue)}
           >
             <Picker.Item
-              style={{ height: 30 }}
+              style={{ height: 30, borderStyle: 2, borderColor: "red" }}
               label="Seleciona Tipo de Vehiculo"
               value="00"
             />
@@ -151,24 +162,16 @@ export default function ServiceScreen({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
-          onChangeText={setNombrePersona}
-          value={providerUser}
+          onChangeText={setProviderName}
+          value={providerName}
           placeholder="Nombre de proveedor "
         />
         <TextInput
           style={styles.input}
-          onChangeText={setNombreSer}
-          value={name}
-          placeholder="Nombre Servicio "
+          onChangeText={setProviderId}
+          value={providerId}
+          placeholder="Cédula del proveedor "
         />
-
-        <TextInput
-          style={styles.input}
-          onChangeText={setDescripcion}
-          value={description}
-          placeholder="Descripcion del servicio"
-        />
-
         <Text>{MensajeInvalido}</Text>
         <TouchableOpacity style={styles.button} onPress={getData}>
           <Text>Enviar datos</Text>
@@ -184,6 +187,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     alignContent: "center",
+    paddingTop: 20,
   },
   from: {
     flex: 1,

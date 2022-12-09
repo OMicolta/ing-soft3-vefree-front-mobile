@@ -17,11 +17,19 @@ import { responsiveHeight, responsiveWidth } from "../utils/Dimensions";
 export default function HomeScreen({ navigation }) {
   const [services, setServices] = useState([]);
 
+  const allServices = async () => {
+    await axios
+      .create()
+      .get("http://localhost:8090/services/getAll")
+      .then((resp) => {
+        setServices(resp.data);
+        console.log(resp.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:8090/services/getAll").then((resp) => {
-      setServices(resp.data);
-      console.log(resp.data);
-    });
+    allServices();
   }, []);
 
   return (
