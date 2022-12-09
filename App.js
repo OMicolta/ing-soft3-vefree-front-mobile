@@ -31,10 +31,7 @@ function MyDrawer() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen
-        name="Home"
-        component={(props) => <NavigationTab {...props} />}
-      />
+      <Drawer.Screen name="Home" component={NavigationTab} />
       <Drawer.Screen
         name="Ofrecer servicio"
         component={ServiceScreen}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
-  TextInput,
   Alert,
+  TextInput,
 } from "react-native";
 
 export default function ServiceScreen({ navigation }) {
@@ -22,7 +22,6 @@ export default function ServiceScreen({ navigation }) {
   const [description, setDescripcion] = useState("");
   const [providerUser, setNombrePersona] = useState("");
   const [MensajeInvalido, setMensajeInvalido] = useState("...");
-
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
   const api = axios.create();
@@ -100,8 +99,8 @@ export default function ServiceScreen({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={{ width: "100%" }}>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.form}>
         <View style={styles.titulo}>
           <Text style={styles.titulo}>Ofrecer Servicio</Text>
         </View>
@@ -181,6 +180,12 @@ export default function ServiceScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  from: {
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
@@ -188,10 +193,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
+    width: 300,
+    height: 44,
     padding: 10,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#e8e8e8",
   },
   button: {
     alignItems: "center",

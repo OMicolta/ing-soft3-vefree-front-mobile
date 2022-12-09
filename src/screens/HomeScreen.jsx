@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
+import { responsiveHeight, responsiveWidth } from "../utils/Dimensions";
 
 export default function HomeScreen({ navigation }) {
   const [services, setServices] = useState([]);
@@ -32,7 +33,7 @@ export default function HomeScreen({ navigation }) {
         }}
       >
         <View style={styles.view_profile}>
-          <Text style={styles.address}>Bienvenido a VeFree</Text>
+          <Text style={styles.address}>Bienvenido a FreeDriver</Text>
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <ImageBackground
               source={require("../assets/images/userAccount.png")}
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingTop: 30,
   },
   scrollView: {
     padding: 20,
