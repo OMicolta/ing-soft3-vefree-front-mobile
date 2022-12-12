@@ -12,7 +12,6 @@ import { SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
-import { responsiveHeight, responsiveWidth } from "../utils/Dimensions";
 
 export default function HomeScreen({ navigation }) {
   const [services, setServices] = useState([]);
@@ -20,7 +19,7 @@ export default function HomeScreen({ navigation }) {
   const allServices = async () => {
     await axios
       .create()
-      .get("http://localhost:8090/services/getAll")
+      .get("http://192.168.0.102:8090/services/getAll")
       .then((resp) => {
         setServices(resp.data);
         console.log(resp.data);

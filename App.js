@@ -11,6 +11,7 @@ import {
 import HomeScreen from "./src/screens/HomeScreen";
 import ServiceScreen from "./src/screens/ServiceScreen";
 import NavigationTab from "./src/navigation/NavigacionTab";
+import CartServices from "./src/screens/CartServices";
 
 function CustomDrawerContent(props) {
   return (
@@ -35,6 +36,11 @@ function MyDrawer() {
       <Drawer.Screen
         name="Ofrecer servicio"
         component={ServiceScreen}
+        options={{ headerShown: true }}
+      />
+      <Drawer.Screen
+        name="Mis servicios"
+        component={CartServices}
         options={{ headerShown: true }}
       />
     </Drawer.Navigator>
