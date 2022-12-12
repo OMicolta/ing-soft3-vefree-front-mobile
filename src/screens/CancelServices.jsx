@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
 
-export default function CartServices() {
+export default function CancelService() {
   const [userId, setUserId] = useState("");
   const [services, setServices] = useState([]);
 
@@ -43,7 +43,6 @@ export default function CartServices() {
         }
       )
       .then((resp) => {
-        setServices(resp.data);
         console.log(resp.data);
       })
       .catch((error) => console.log(error));

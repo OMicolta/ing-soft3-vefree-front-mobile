@@ -6,15 +6,26 @@ import {
   TouchableOpacity,
   ImageBackground,
   Button,
+  TextInput,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
+import Modal from "react-native-modal";
+import AcceptService from "./AcceptService";
 
 export default function HomeScreen({ navigation }) {
+  const [state, setState] = useState({
+    visibleModal: null,
+  });
+
   const [services, setServices] = useState([]);
+
+  const [serviceId, setServiceId] = useState("");
+  const [beneficiaryId, setBeneficiaryId] = useState("");
+  const [beneficiaryName, setBeneficiaryName] = useState("");
 
   const allServices = async () => {
     await axios
@@ -27,9 +38,69 @@ export default function HomeScreen({ navigation }) {
       .catch((error) => console.log(error));
   };
 
+  const acceptService = async () => {
+    await axios
+      .create()
+      .post(
+        `http://192.168.0.102:8090/services/acceptService`,
+        JSON.stringify({
+          serviceId: serviceId,
+          beneficiaryId: beneficiaryId,
+          beneficiaryName: beneficiaryName,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((resp) => {
+        console.log(resp.data);
+        console.log({
+          serviceId: serviceId,
+          beneficiaryId: beneficiaryId,
+          beneficiaryName: beneficiaryName,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     allServices();
   }, []);
+
+  const _renderButton = (text, onPress) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.bottomModal}>
+        <Text>{text}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const _renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <Text>Aceptar Servicio</Text>
+      <TextInput
+        value={beneficiaryName}
+        onChangeText={setBeneficiaryName}
+        placeholder={"Nombre"}
+        style={styles.input}
+      />
+      <TextInput
+        value={beneficiaryId}
+        onChangeText={setBeneficiaryId}
+        placeholder={"Cédula"}
+        style={styles.input}
+      />
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        {_renderButton("Cancelar", () => setState({ visibleModal: null }))}
+        {_renderButton("Aceptar", () => {
+          setState({ visibleModal: null });
+          acceptService();
+        })}
+      </View>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,7 +130,6 @@ export default function HomeScreen({ navigation }) {
             destination,
             initialDate,
             providerUser,
-            vehicleTypeId,
           }) => (
             <View style={styles.card}>
               <Card image={source} key={id}>
@@ -77,12 +147,21 @@ export default function HomeScreen({ navigation }) {
                 <Text style={{ marginBottom: 10 }}>
                   Ofrecido por: {providerUser}.
                 </Text>
-                <Button title="Aceptar Servicio" color="tomato" />
+                <View>
+                  {_renderButton("Aceptar Servicio", () => {
+                    setState({ visibleModal: 1 });
+                    setServiceId({ id }.id);
+                  })}
+                  <Modal isVisible={state.visibleModal === 1}>
+                    {_renderModalContent()}
+                  </Modal>
+                </View>
               </Card>
             </View>
           )
         )}
       </ScrollView>
+      <AcceptService />
     </SafeAreaView>
   );
 }
@@ -134,5 +213,41 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#34495e",
+  },
+  button: {
+    backgroundColor: "lightblue",
+    padding: 12,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 10,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+    width: "80%",
+    height: "40%",
+  },
+  bottomModal: {
+    backgroundColor: "tomato",
+    padding: 12,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  input: {
+    width: 250,
+    height: 44,
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#e8e8e8",
   },
 });
