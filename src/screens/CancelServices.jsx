@@ -14,6 +14,7 @@ import axios, { AxiosResponse } from "axios";
 export default function CancelService() {
   const [userId, setUserId] = useState("");
   const [services, setServices] = useState([]);
+  const [MensajeInvalido, setMensajeInvalido] = useState("...");
  /**
  *Permite obtener los servicios de un usuario
  */
@@ -36,6 +37,13 @@ export default function CancelService() {
    * @param {*} UserId cédula del usuario
    */
   const cancelService = async (ServiceId, UserId) => {
+    if (UserId === "") {
+
+      setMensajeInvalido("Por favor ingrese su cedula");
+    }
+    else {
+      setMensajeInvalido("Cedula ingresada correctamente");
+    }
     await axios
       .create()
       .patch(
@@ -109,6 +117,15 @@ export default function CancelService() {
     </SafeAreaView>
   );
 }
+const campoInvalido= (data) => {
+  for (let i = 0; i < 1; i++) {
+    if (Object.values(data)[i] === "") {
+      setMensajeInvalido("Por favor ingrese su cedula");
+      return true;
+    }
+  }
+  return false;
+};
 
 const styles = StyleSheet.create({
   container: {
