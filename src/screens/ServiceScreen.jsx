@@ -22,7 +22,7 @@ export default function ServiceScreen({ navigation }) {
   const [description, setDescripcion] = useState("");
   const [providerName, setProviderName] = useState("");
   const [providerId, setProviderId] = useState("");
-  const [MensajeInvalido, setMensajeInvalido] = useState("...");
+  const [MensajeInvalido, setMensajeInvalido] = useState(" ");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
   const api = axios.create();
@@ -66,6 +66,7 @@ export default function ServiceScreen({ navigation }) {
         return true;
       }
     }
+    setMensajeInvalido("Campos llenados Correctamente");
     return false;
   };
 
