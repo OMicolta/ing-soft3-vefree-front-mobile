@@ -16,10 +16,12 @@ export default function CancelService() {
   const [userId, setUserId] = useState("");
   const [services, setServices] = useState([]);
   const [MensajeInvalido, setMensajeInvalido] = useState("...");
+
+  const [success, setSuccess] = useState(false);
+
   /**
    *Permite obtener los servicios de un usuario
    */
-
   const servicesByUser = async () => {
     await axios
       .create()
@@ -59,9 +61,18 @@ export default function CancelService() {
       )
       .then((resp) => {
         console.log(resp.data);
+        if (resp.data) setSuccess(true);
       })
       .catch((error) => console.log(error));
   };
+
+  const simpleAlertHandler = () => {
+    alert("Servico Cancelado");
+  };
+
+  useEffect(() => {
+    servicesByUser();
+  }, [services]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,6 +119,13 @@ export default function CancelService() {
                     cancelService({ id }.id, userId);
                   }}
                 />
+                {success ? (
+                  <Button onPress={setSuccess(false)}>
+                    {simpleAlertHandler()}
+                  </Button>
+                ) : (
+                  ""
+                )}
               </Card>
             </View>
           )

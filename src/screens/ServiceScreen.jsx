@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
+  Button,
   TouchableOpacity,
   FlatList,
   SafeAreaView,
@@ -27,6 +27,8 @@ export default function ServiceScreen({ navigation }) {
   const [mensaje, setMensaje] = useState(" ");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
+  const [success, setSuccess] = useState(false);
+
   const api = axios.create();
   const sendData = async (data) => {
     return await api.post(urls.createService, JSON.stringify(data), {
@@ -36,25 +38,6 @@ export default function ServiceScreen({ navigation }) {
     });
   };
 
-  const showAlert = () =>
-    Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
-      [
-        {
-          text: "Cancel",
-          onPress: () => Alert.alert("Cancel Pressed"),
-          style: "cancel",
-        },
-      ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            "This alert was dismissed by tapping outside of the alert dialog."
-          ),
-      }
-    );
   /**
    * Validación campos formularios
    * @param {*} data datos de los formularios
@@ -67,7 +50,6 @@ export default function ServiceScreen({ navigation }) {
         return true;
       }
     }
-    setMensaje("Servicio creado Correctamente");
     return false;
   };
 
@@ -89,6 +71,8 @@ export default function ServiceScreen({ navigation }) {
         (response) => {
           console.log(response);
           console.log("envie datos");
+          setSuccess(true);
+          clearForm();
         },
         (error) => {
           console.log(error);
@@ -108,6 +92,22 @@ export default function ServiceScreen({ navigation }) {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const simpleAlertHandler = () => {
+    alert("Servico creado");
+  };
+
+  const clearForm = () => {
+    setOrigen("");
+    setDestino("");
+    setFechaH("");
+    setTipoV("");
+    setName("");
+    setDescripcion("");
+    setProviderName("");
+    setProviderId("");
+    setMensaje(" ");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -183,6 +183,11 @@ export default function ServiceScreen({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={getData}>
           <Text>Enviar datos</Text>
         </TouchableOpacity>
+        {success ? (
+          <Button onPress={setSuccess(false)}>{simpleAlertHandler()}</Button>
+        ) : (
+          ""
+        )}
       </ScrollView>
     </SafeAreaView>
   );

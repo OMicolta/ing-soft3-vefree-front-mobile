@@ -28,6 +28,8 @@ export default function HomeScreen({ navigation }) {
   const [beneficiaryId, setBeneficiaryId] = useState("");
   const [beneficiaryName, setBeneficiaryName] = useState("");
 
+  const [success, setSuccess] = useState(false);
+
   const allServices = async () => {
     await axios
       .create()
@@ -59,11 +61,7 @@ export default function HomeScreen({ navigation }) {
       )
       .then((resp) => {
         console.log(resp.data);
-        console.log({
-          serviceId: serviceId,
-          beneficiaryId: beneficiaryId,
-          beneficiaryName: beneficiaryName,
-        });
+        if (resp.data) setSuccess(true);
       })
       .catch((error) => console.log(error));
   };
@@ -105,6 +103,10 @@ export default function HomeScreen({ navigation }) {
     </View>
   );
 
+  const simpleAlertHandler = () => {
+    alert("Servico Aceptado");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -145,7 +147,13 @@ export default function HomeScreen({ navigation }) {
             providerUser,
           }) => (
             <View style={styles.card}>
-              <Card image={source} key={id}>
+              <Card
+                image={source}
+                key={id}
+                containerStyle={{
+                  backgroundColor: "#FBEEE6",
+                }}
+              >
                 <Text style={{ marginBottom: 10, fontWeight: "bold" }}>
                   {name}.
                 </Text>
@@ -171,6 +179,13 @@ export default function HomeScreen({ navigation }) {
                   >
                     {_renderModalContent()}
                   </Modal>
+                  {success ? (
+                    <Button onPress={setSuccess(false)}>
+                      {simpleAlertHandler()}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </View>
               </Card>
             </View>
