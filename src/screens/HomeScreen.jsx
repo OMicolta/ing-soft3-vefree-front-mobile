@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
 import Modal from "react-native-modal";
+import { Ionicons } from "@expo/vector-icons";
+import { urls } from "../utils/Constants";
 
 export default function HomeScreen({ navigation }) {
   const [state, setState] = useState({
@@ -29,21 +31,21 @@ export default function HomeScreen({ navigation }) {
   const allServices = async () => {
     await axios
       .create()
-      .get("http://192.168.0.100:8090/services/getAll")
+      .get(urls.getAllServices)
       .then((resp) => {
         setServices(resp.data);
         console.log(resp.data);
       })
       .catch((error) => console.log(error));
   };
-/**
- * Permite a un usuario aceptar un servicio
- */
+  /**
+   * Permite a un usuario aceptar un servicio
+   */
   const acceptService = async () => {
     await axios
       .create()
       .post(
-        `http://192.168.0.100:8090/services/acceptService`,
+        urls.acceptService,
         JSON.stringify({
           serviceId: serviceId,
           beneficiaryId: beneficiaryId,
@@ -120,6 +122,16 @@ export default function HomeScreen({ navigation }) {
             />
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ fontWeight: "bold" }}>Servicios Disponibles</Text>
+        <Ionicons
+          name="reload"
+          size={24}
+          color="black"
+          selectionColor="red"
+          onPress={allServices}
+        />
       </View>
       <ScrollView style={styles.scrollView}>
         {services.map(

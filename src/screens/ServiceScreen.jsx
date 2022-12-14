@@ -11,7 +11,9 @@ import {
   SafeAreaView,
   Alert,
   TextInput,
+  ScrollView,
 } from "react-native";
+import { urls } from "../utils/Constants";
 
 export default function ServiceScreen({ navigation }) {
   const [source, setOrigen] = useState("");
@@ -22,13 +24,12 @@ export default function ServiceScreen({ navigation }) {
   const [description, setDescripcion] = useState("");
   const [providerName, setProviderName] = useState("");
   const [providerId, setProviderId] = useState("");
-  const [MensajeInvalido, setMensajeInvalido] = useState(" ");
+  const [mensaje, setMensaje] = useState(" ");
   const [vehicleTypes, setVehicleTypes] = useState([]);
 
   const api = axios.create();
   const sendData = async (data) => {
-    const source = "http://192.168.0.100:8090/services/create";
-    return await api.post(source, JSON.stringify(data), {
+    return await api.post(urls.createService, JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
       },
@@ -54,19 +55,19 @@ export default function ServiceScreen({ navigation }) {
           ),
       }
     );
-/**
- * Validación campos formularios 
- * @param {*} data datos de los formularios
- * @returns se retorna verdadero cuando cumple la condicion del contrario se procede a invalidar el registro
- */
+  /**
+   * Validación campos formularios
+   * @param {*} data datos de los formularios
+   * @returns se retorna verdadero cuando cumple la condicion del contrario se procede a invalidar el registro
+   */
   const campoInvalido = (data) => {
     for (let i = 0; i < 4; i++) {
       if (Object.values(data)[i] === "") {
-        setMensajeInvalido("Campos vacios por favor verifique");
+        setMensaje("Campos vacios por favor verifique");
         return true;
       }
     }
-    setMensajeInvalido("Campos llenados Correctamente");
+    setMensaje("Servicio creado Correctamente");
     return false;
   };
 
@@ -79,7 +80,8 @@ export default function ServiceScreen({ navigation }) {
     data["vehicleTypeId"] = parseInt(vehicleTypeId);
     data["name"] = name;
     data["description"] = description;
-    data["providerUser"] = providerName;
+    data["providerName"] = providerName;
+    data["providerId"] = providerId;
     console.log(data);
 
     if (campoInvalido(data) === false) {
@@ -99,7 +101,7 @@ export default function ServiceScreen({ navigation }) {
 
   useEffect(() => {
     api
-      .get("http://192.168.0.100:8090/vehicleType/getAll")
+      .get(urls.getVehicleTypes)
       .then((resp) => {
         setVehicleTypes(resp.data);
         console.log(resp.data);
@@ -109,7 +111,7 @@ export default function ServiceScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.form}>
+      <ScrollView style={styles.form}>
         <View style={styles.titulo}>
           <Text style={styles.titulo}>Ingresa los datos del servicio</Text>
         </View>
@@ -177,11 +179,11 @@ export default function ServiceScreen({ navigation }) {
           value={providerId}
           placeholder="Cédula del proveedor "
         />
-        <Text>{MensajeInvalido}</Text>
+        <Text>{mensaje}</Text>
         <TouchableOpacity style={styles.button} onPress={getData}>
           <Text>Enviar datos</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

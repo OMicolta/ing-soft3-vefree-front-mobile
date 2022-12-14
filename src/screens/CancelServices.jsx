@@ -10,19 +10,20 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
+import { urls } from "../utils/Constants";
 
 export default function CancelService() {
   const [userId, setUserId] = useState("");
   const [services, setServices] = useState([]);
   const [MensajeInvalido, setMensajeInvalido] = useState("...");
- /**
- *Permite obtener los servicios de un usuario
- */
+  /**
+   *Permite obtener los servicios de un usuario
+   */
 
   const servicesByUser = async () => {
     await axios
       .create()
-      .get(`http://192.168.0.100:8090/services/getByUserId?userId=${userId}`)
+      .get(`${urls.getServicesByUser}${userId}`)
       .then((resp) => {
         setServices(resp.data);
         console.log(resp.data);
@@ -38,16 +39,14 @@ export default function CancelService() {
    */
   const cancelService = async (ServiceId, UserId) => {
     if (UserId === "") {
-
       setMensajeInvalido("Por favor ingrese su cedula");
-    }
-    else {
+    } else {
       setMensajeInvalido("Cedula ingresada correctamente");
     }
     await axios
       .create()
       .patch(
-        `http://192.168.0.100:8090/services/cancelService`,
+        `${urls.canceService}`,
         JSON.stringify({
           serviceId: ServiceId,
           userId: UserId,
@@ -117,7 +116,7 @@ export default function CancelService() {
     </SafeAreaView>
   );
 }
-const campoInvalido= (data) => {
+const campoInvalido = (data) => {
   for (let i = 0; i < 1; i++) {
     if (Object.values(data)[i] === "") {
       setMensajeInvalido("Por favor ingrese su cedula");
