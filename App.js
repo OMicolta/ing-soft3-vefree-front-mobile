@@ -13,6 +13,13 @@ import ServiceScreen from "./src/screens/ServiceScreen";
 import NavigationTab from "./src/navigation/NavigacionTab";
 import CancelService from "./src/screens/CancelServices";
 
+/**
+ * Metodo encargado de  obtener el Contenido del cajón personalizado al oprimir la tecla cerrar
+ * con el fin de cerrar la aplicación 
+ * @param {*} props accesorios
+ * @returns DrawerContentScrollView  se hace un retorno del cajon de contenido 
+ */
+
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>

@@ -14,6 +14,9 @@ import axios, { AxiosResponse } from "axios";
 export default function CancelService() {
   const [userId, setUserId] = useState("");
   const [services, setServices] = useState([]);
+ /**
+ *Permite obtener los servicios de un usuario
+ */
 
   const servicesByUser = async () => {
     await axios
@@ -27,6 +30,11 @@ export default function CancelService() {
       .catch((error) => console.log(error));
   };
 
+  /**
+   * Permite cancelar un servicio de un usuario
+   * @param {*} ServiceId  identificador del servicio
+   * @param {*} UserId cédula del usuario
+   */
   const cancelService = async (ServiceId, UserId) => {
     await axios
       .create()

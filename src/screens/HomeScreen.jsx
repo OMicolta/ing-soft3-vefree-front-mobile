@@ -36,7 +36,9 @@ export default function HomeScreen({ navigation }) {
       })
       .catch((error) => console.log(error));
   };
-
+/**
+ * Permite a un usuario aceptar un servicio
+ */
   const acceptService = async () => {
     await axios
       .create()

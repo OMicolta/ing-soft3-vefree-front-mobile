@@ -54,7 +54,11 @@ export default function ServiceScreen({ navigation }) {
           ),
       }
     );
-
+/**
+ * Validación campos formularios 
+ * @param {*} data datos de los formularios
+ * @returns se retorna verdadero cuando cumple la condicion del contrario se procede a invalidar el registro
+ */
   const campoInvalido = (data) => {
     for (let i = 0; i < 4; i++) {
       if (Object.values(data)[i] === "") {
