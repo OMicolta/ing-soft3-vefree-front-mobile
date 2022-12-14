@@ -27,7 +27,7 @@ export default function ServiceScreen({ navigation }) {
 
   const api = axios.create();
   const sendData = async (data) => {
-    const source = "http://localhost:8090/services/create";
+    const source = "http://192.168.0.100:8090/services/create";
     return await api.post(source, JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export default function ServiceScreen({ navigation }) {
 
   useEffect(() => {
     api
-      .get("http://localhost:8090/vehicleType/getAll")
+      .get("http://192.168.0.100:8090/vehicleType/getAll")
       .then((resp) => {
         setVehicleTypes(resp.data);
         console.log(resp.data);

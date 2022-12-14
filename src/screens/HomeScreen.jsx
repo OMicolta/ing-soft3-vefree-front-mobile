@@ -14,7 +14,6 @@ import { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import axios, { AxiosResponse } from "axios";
 import Modal from "react-native-modal";
-import AcceptService from "./AcceptService";
 
 export default function HomeScreen({ navigation }) {
   const [state, setState] = useState({
@@ -30,7 +29,7 @@ export default function HomeScreen({ navigation }) {
   const allServices = async () => {
     await axios
       .create()
-      .get("http://192.168.0.102:8090/services/getAll")
+      .get("http://192.168.0.100:8090/services/getAll")
       .then((resp) => {
         setServices(resp.data);
         console.log(resp.data);
@@ -42,7 +41,7 @@ export default function HomeScreen({ navigation }) {
     await axios
       .create()
       .post(
-        `http://192.168.0.102:8090/services/acceptService`,
+        `http://192.168.0.100:8090/services/acceptService`,
         JSON.stringify({
           serviceId: serviceId,
           beneficiaryId: beneficiaryId,
@@ -67,7 +66,7 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     allServices();
-  }, []);
+  }, [services]);
 
   const _renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
@@ -152,7 +151,10 @@ export default function HomeScreen({ navigation }) {
                     setState({ visibleModal: 1 });
                     setServiceId({ id }.id);
                   })}
-                  <Modal isVisible={state.visibleModal === 1}>
+                  <Modal
+                    isVisible={state.visibleModal === 1}
+                    style={{ backgroundColor: "rgba(52, 52, 52, 0.8)" }}
+                  >
                     {_renderModalContent()}
                   </Modal>
                 </View>
@@ -161,7 +163,6 @@ export default function HomeScreen({ navigation }) {
           )
         )}
       </ScrollView>
-      <AcceptService />
     </SafeAreaView>
   );
 }

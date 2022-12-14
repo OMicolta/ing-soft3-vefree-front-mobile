@@ -18,7 +18,7 @@ export default function CancelService() {
   const servicesByUser = async () => {
     await axios
       .create()
-      .get(`http://192.168.0.102:8090/services/getByUserId?userId=${userId}`)
+      .get(`http://192.168.0.100:8090/services/getByUserId?userId=${userId}`)
       .then((resp) => {
         setServices(resp.data);
         console.log(resp.data);
@@ -31,7 +31,7 @@ export default function CancelService() {
     await axios
       .create()
       .patch(
-        `http://192.168.0.102:8090/services/cancelService`,
+        `http://192.168.0.100:8090/services/cancelService`,
         JSON.stringify({
           serviceId: ServiceId,
           userId: UserId,
